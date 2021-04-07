@@ -7,13 +7,7 @@ namespace octetos::cobgl
 Window::Window()
 {
 	// Initialise GLFW
-	glewExperimental = true; // Needed for core profile
-	if( !glfwInit() )
-	{
-		fprintf( stderr, "Failed to initialize GLFW\n" );
-		getchar();
-		return;
-	}
+	initGLFW();
 
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -32,17 +26,27 @@ Window::Window()
 	MakeContextCurrent();
 
 	// Initialize GLEW
-	if (glewInit() != GLEW_OK) {
-		fprintf(stderr, "Failed to initialize GLEW\n");
-		getchar();
-		glfwTerminate();
-		return;
-	}
+	initGLEW();
 
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 }	
-
+void Window::initGLFW()
+{
+	glewExperimental = true; // Needed for core profile
+	if( !glfwInit() )
+	{
+		glfwTerminate();
+		throw core::Exception("Fallo la inicializacion de GLFW.",__FILE__,__LINE__);
+	}
+}
+void Window::initGLEW()
+{
+	if (glewInit() != GLEW_OK) 
+	{
+		throw core::Exception("Fallo la inicializacion de GLEW.",__FILE__,__LINE__);
+	}
+}
 Window::~Window()
 {
 	glDeleteVertexArrays(1, &VertexArrayID);

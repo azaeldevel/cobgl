@@ -116,6 +116,10 @@ public:
 
 	void MakeContextCurrent();
 private:
+	void initGLFW();
+	void initGLEW();
+
+	
 	GLFWwindow* window;
 	GLuint VertexArrayID;
 };
