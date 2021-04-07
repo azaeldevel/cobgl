@@ -105,7 +105,7 @@ am_gl_OBJECTS = gl-main.$(OBJEXT) gl-core.$(OBJEXT) \
 	gl-shader.$(OBJEXT)
 gl_OBJECTS = $(am_gl_OBJECTS)
 am__DEPENDENCIES_1 =
-gl_DEPENDENCIES = $(am__DEPENDENCIES_1)
+gl_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -230,6 +230,8 @@ NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
+OCTETOS_CORE_CFLAGS = @OCTETOS_CORE_CFLAGS@
+OCTETOS_CORE_LIBS = @OCTETOS_CORE_LIBS@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -313,8 +315,8 @@ AM_CFLAGS = \
 	 -g
 
 gl_SOURCES = main.cc core.cc shader.cpp
-gl_CXXFLAGS = $(GL_CFLAGS)
-gl_LDADD = $(GL_LIBS)
+gl_CXXFLAGS = $(GL_CFLAGS) $(OCTETOS_CORE_CFLAGS)
+gl_LDADD = $(GL_LIBS)  $(OCTETOS_CORE_LIBS)
 all: all-am
 
 .SUFFIXES:

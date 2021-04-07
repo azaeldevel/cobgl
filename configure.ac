@@ -20,7 +20,7 @@ LT_INIT
 
 PKG_CHECK_MODULES(GL,[glew glfw3])
 
-
+PKG_CHECK_MODULES(OCTETOS_CORE,octetos-core)
 
 AC_OUTPUT([
 Makefile
