@@ -63,23 +63,6 @@ int main( void )
 	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix mul
 
 	
-	/*std::vector<std::vector<float>> vData(3);
-	vData[0].resize(3);
-	vData[0][0] = -1.0f;
-	vData[0][1] = -1.0f;
-	vData[0][2] = 0.0f;
-	vData[1].resize(3);
-	vData[1][0] = 1.0f;
-	vData[1][1] = -1.0f;
-	vData[1][2] = 0.0f;
-	vData[2].resize(3);
-	vData[2][0] = 0.0f;
-	vData[2][1] = 1.0f;
-	vData[2][2] = 0.0f;
-	std::cout << "Size of v1 " << vData[0].size() << "\n";
-	std::cout << "Size of v2 " << vData[1].size() << "\n";
-	std::cout << "Size of v3 " << vData[2].size() << "\n";
-	std::cout << "Size of vData " << vData.size() << "\n";*/
 	octetos::cobgl::VertexList<float> vecL(3,3);
 	octetos::cobgl::Vertex3D<float>& v1 = vecL.get3D(0);
 	v1.x = -1.0;
@@ -93,25 +76,7 @@ int main( void )
 	v3.x = 0.0;
 	v3.y = 1.0;
 	v3.z = 0.0;
-	std::cout << "Size of octetos::cobgl::Vertex3D<float> " << sizeof(octetos::cobgl::Vertex3D<float>) << "\n";
-	std::cout << "Size of float " << sizeof(float) << "\n";
-	/*std::vector<float> vec(9);
-	vec[0] = -1.0f;
-	vec[1] = -1.0f;
-	vec[2] = 0.0f;
-	vec[3] = 1.0f;
-	vec[4] = -1.0f;
-	vec[5] = 0.0f;
-	vec[6] = 0.0f;
-	vec[7] = 1.0f;
-	vec[8] = 0.0f;*/
 		
-	static const GLfloat g_vertex_buffer_data[] = { 
-		-1.0f, -1.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,
-	};
-
 	vecL.GenBuffers(1);
 	
 	do
@@ -129,7 +94,7 @@ int main( void )
 
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vecL);
+		vecL.BindBuffer();
 		glVertexAttribPointer(
 			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
 			3,                  // size
@@ -143,7 +108,6 @@ int main( void )
 		glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
 
 		glDisableVertexAttribArray(0);
-
 		
 		// Swap buffers
 		glfwSwapBuffers(wnd);

@@ -89,8 +89,12 @@ public:
 	void GenBuffers(GLsizei n)
 	{
 		glGenBuffers(n, &vBuff);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vBuff);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(T) * size * dimension, getHeader(), GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, vBuff);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(T) * size * dimension, getHeader(), GL_STATIC_DRAW);
+	}
+	void BindBuffer()
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vBuff);
 	}
 	operator GLuint()
 	{
