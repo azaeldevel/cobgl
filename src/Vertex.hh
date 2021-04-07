@@ -6,6 +6,8 @@
 #include <GLFW/glfw3.h>
 #include <octetos/core/Exception.hh>
 #include <vector>
+#include <string.h>
+
 
 namespace octetos::cobgl
 {
@@ -28,12 +30,21 @@ template<typename T> struct Vertex3D : public Vertex<T>
 template<typename T, template <typename = T> class S> class VertexList : public std::vector<T>
 {
 public:
-	VertexList(unsigned short dimension, unsigned short length) : std::vector<T>(dimension * length)
+	VertexList(unsigned short length) : std::vector<T>(3 * length)
 	{
-		if( length < 2 or length > 3)
+		if(strcmp(typeid(S<T>).name(),typeid(Vertex2D<T>).name()) == 0)
 		{
-			std::string msg = "Solo se pueden crear objetos de 2 y 3 dimensiones, usted especifico '";
-			msg += std::to_string(length) + "'";
+			this->dimension = 2;
+			std::vector<T>::resize(2 * length);//TODO: Se asumio en el contructor que la demiencionera 3, si no es asi se corrge
+		}
+		else if(strcmp(typeid(S<T>).name(),typeid(Vertex3D<T>).name()) == 0)
+		{
+			this->dimension = 3;
+		}
+		else
+		{			
+			std::string msg = "La clase '";
+			msg = msg + typeid(S<T>).name() + "', no es una clase valida.";
 			throw core::Exception(msg,__FILE__,__LINE__);
 		}
 		std::cout << "Size of sz = " << dimension * length << ", size = " << std::vector<T>::size() << "\n";
@@ -49,7 +60,23 @@ public:
 		std::vector<T>& vl = *this;
 		return &vl[0];
 	}
-	S<T>& get3D(unsigned short index)
+	S<T>& operator[] (unsigned short index)
+	{
+		std::vector<T>& vl = *this; 
+		if(dimension == 3) 
+		{
+			T* t = getHeader();
+			t = t + ((sizeof(S<T>)/sizeof(T)) * index);
+			return (S<T>&) *t ;
+		}
+		else
+		{
+			std::string msg = "El vertice tiene dimension '";
+			msg += std::to_string(length) + "', pero usted especifico 3.";
+			throw core::Exception(msg,__FILE__,__LINE__);
+		}		
+	}
+	/*S<T>& get3D(unsigned short index)
 	{
 		std::vector<T>& vl = *this; 
 		if(dimension == 3) 
@@ -81,7 +108,7 @@ public:
 			msg += std::to_string(length) + "', pero usted especifico 2.";
 			throw core::Exception(msg,__FILE__,__LINE__);
 		}
-	}
+	}*/
 	void GenBuffers(GLsizei n)
 	{
 		glGenBuffers(n, &vBuff);

@@ -63,16 +63,16 @@ int main( void )
 	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix mul
 
 	
-	octetos::cobgl::VertexList<float,octetos::cobgl::Vertex3D> vecL(3,3);
-	octetos::cobgl::Vertex3D<float>& v1 = vecL.get3D(0);
+	octetos::cobgl::VertexList<float,octetos::cobgl::Vertex3D> vecL(3);
+	octetos::cobgl::Vertex3D<float>& v1 = vecL[0];
 	v1.x = -1.0f;
 	v1.y = -1.0f;
 	v1.z = 0.0f;
-	octetos::cobgl::Vertex3D<float>& v2 = vecL.get3D(1);
+	octetos::cobgl::Vertex3D<float>& v2 = vecL[1];
 	v2.x = 1.0f;
 	v2.y = -1.0f;
 	v2.z = 0.0f;
-	octetos::cobgl::Vertex3D<float>& v3 = vecL.get3D(2);
+	octetos::cobgl::Vertex3D<float>& v3 = vecL[2];
 	v3.x = 0.0f;
 	v3.y = 1.0f;
 	v3.z = 0.0f;
