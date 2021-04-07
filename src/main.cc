@@ -63,20 +63,34 @@ int main( void )
 	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix mul
 
 	
-	octetos::cobgl::VertexList<float> vecL(3,3);
+	octetos::cobgl::VertexList<float,octetos::cobgl::Vertex3D> vecL(3,3);
 	octetos::cobgl::Vertex3D<float>& v1 = vecL.get3D(0);
-	v1.x = -1.0;
-	v1.y = -1.0;
-	v1.z = 0.0;
+	v1.x = -1.0f;
+	v1.y = -1.0f;
+	v1.z = 0.0f;
 	octetos::cobgl::Vertex3D<float>& v2 = vecL.get3D(1);
-	v2.x = 1.0;
-	v2.y = -1.0;
-	v2.z = 0.0;
+	v2.x = 1.0f;
+	v2.y = -1.0f;
+	v2.z = 0.0f;
 	octetos::cobgl::Vertex3D<float>& v3 = vecL.get3D(2);
-	v3.x = 0.0;
-	v3.y = 1.0;
-	v3.z = 0.0;
-		
+	v3.x = 0.0f;
+	v3.y = 1.0f;
+	v3.z = 0.0f;
+
+	static const GLfloat g_vertex_buffer_data[] = { 
+		-1.0f, -1.0f, 0.0f,
+		 1.0f, -1.0f, 0.0f,
+		 0.0f,  1.0f, 0.0f,
+	};
+	std::cout << "Size of g_vertex_buffer_data = " << sizeof(g_vertex_buffer_data) << "\n";
+	std::cout << "Size  = " << sizeof(float) * 9 << "\n";
+	std::cout << "Size of vecL = " << sizeof(vecL) << "\n";
+	std::cout << "Size of unsigned short = " << sizeof(unsigned short) << "\n";
+	std::cout << "Size of GLuint = " << sizeof(GLuint) << "\n";
+	for(float f : vecL)
+	{
+		std::cout << "f = " << f << "\n";
+	}
 	vecL.GenBuffers(1);
 	
 	do
@@ -115,6 +129,8 @@ int main( void )
 
 	} // Check if the ESC key was pressed or the window was closed
 	while( glfwGetKey(wnd, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(wnd) == 0 );
+
+	float buff[9];
 	
 	// Cleanup VBO and shader
 	//glDeleteBuffers(1, &vertexbuffer);

@@ -11,33 +11,34 @@ namespace octetos::cobgl
 {
 
 
-template<class T> struct Vertex
+template<typename T> struct Vertex
 {
 };
-template<class T> struct Vertex2D : public Vertex<T>
+template<typename T> struct Vertex2D : public Vertex<T>
 {
 	T x;
 	T y;
 };
-template<class T> struct Vertex3D : public Vertex<T>
+template<typename T> struct Vertex3D : public Vertex<T>
 {
 	T x;
 	T y;
 	T z;
 };
-template<class T> class VertexList : public std::vector<T>
+template<typename T, template <typename = T> class S> class VertexList : public std::vector<T>
 {
 public:
-	VertexList(unsigned short dimension, unsigned short size) : std::vector<T>(dimension * size)
+	VertexList(unsigned short dimension, unsigned short length) : std::vector<T>(dimension * length)
 	{
-		if( size < 2 or size > 3)
+		if( length < 2 or length > 3)
 		{
 			std::string msg = "Solo se pueden crear objetos de 2 y 3 dimensiones, usted especifico '";
-			msg += std::to_string(size) + "'";
+			msg += std::to_string(length) + "'";
 			throw core::Exception(msg,__FILE__,__LINE__);
 		}
+		std::cout << "Size of sz = " << dimension * length << ", size = " << std::vector<T>::size() << "\n";
 		this->dimension = dimension;
-		this->size = size;
+		this->length = length;
 	};
 	~VertexList()
 	{
@@ -48,24 +49,23 @@ public:
 		std::vector<T>& vl = *this;
 		return &vl[0];
 	}
-	Vertex3D<T>& get3D(unsigned short index)
+	S<T>& get3D(unsigned short index)
 	{
 		std::vector<T>& vl = *this; 
 		if(dimension == 3) 
 		{
 			T* t = getHeader();
 			t = t + ((sizeof(Vertex3D<T>)/sizeof(T)) * index);
-			Vertex3D<T>* v = (Vertex3D<T>*) t ;
-			return *v;
+			return (Vertex3D<T>&) *t ;
 		}
 		else
 		{
 			std::string msg = "El vertice tiene dimension '";
-			msg += std::to_string(size) + "', pero usted especifico 3.";
+			msg += std::to_string(length) + "', pero usted especifico 3.";
 			throw core::Exception(msg,__FILE__,__LINE__);
 		}
 	}
-	Vertex2D<T>& get2D(unsigned short index)
+	S<T>& get2D(unsigned short index)
 	{
 		std::vector<T>& vl = *this; 
 		if(dimension == 2) 
@@ -78,7 +78,7 @@ public:
 		else
 		{
 			std::string msg = "El vertice tiene dimension '";
-			msg += std::to_string(size) + "', pero usted especifico 2.";
+			msg += std::to_string(length) + "', pero usted especifico 2.";
 			throw core::Exception(msg,__FILE__,__LINE__);
 		}
 	}
@@ -86,7 +86,7 @@ public:
 	{
 		glGenBuffers(n, &vBuff);
 		glBindBuffer(GL_ARRAY_BUFFER, vBuff);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(T) * size * dimension, getHeader(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(T) * length * dimension, getHeader(), GL_STATIC_DRAW);
 	}
 	void BindBuffer()
 	{
@@ -99,7 +99,7 @@ public:
 
 private:
 	unsigned short dimension;
-	unsigned short size;
+	unsigned short length;
 	GLuint vBuff;
 };
 
