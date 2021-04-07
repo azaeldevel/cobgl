@@ -11,7 +11,7 @@ AM_CFLAGS =\
 
 bin_PROGRAMS = gl
 
-gl_SOURCES = main.cc core.cc
+gl_SOURCES = main.cc core.cc shader.cpp
 gl_CXXFLAGS = $(GL_CFLAGS)
 gl_LDADD = $(GL_LIBS)
 

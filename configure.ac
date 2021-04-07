@@ -1,5 +1,5 @@
 
-AC_INIT(octetos-cobgl, 0.1.0-alpha)
+AC_INIT(octetos-cobgl, 0.1.0-alpha,azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 
