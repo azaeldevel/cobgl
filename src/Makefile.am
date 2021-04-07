@@ -1,6 +1,4 @@
-## Process this file with automake to produce Makefile.in
 
-## Created by Anjuta
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
@@ -11,13 +9,10 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-bin_PROGRAMS = octetos_cobgl
+bin_PROGRAMS = gl
 
-octetos_cobgl_SOURCES = \
-	main.cc
-
-octetos_cobgl_LDFLAGS = 
-
-octetos_cobgl_LDADD = 
+gl_SOURCES = main.cc core.cc
+gl_CXXFLAGS = $(GL_CFLAGS)
+gl_LDADD = $(GL_LIBS)
 
 

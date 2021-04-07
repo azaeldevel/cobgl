@@ -1,7 +1,5 @@
-dnl Process this file with autoconf to produce a configure script.
-dnl Created by Anjuta application wizard.
 
-AC_INIT(octetos_cobgl, 0.1.0-alpha)
+AC_INIT(octetos-cobgl, 0.1.0-alpha)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -20,7 +18,7 @@ AC_PROG_CXX
 
 LT_INIT
 
-
+PKG_CHECK_MODULES(GL,[glew glfw3])
 
 
 

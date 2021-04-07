@@ -1,4 +1,4 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
+
 /*
  * main.cc
  * Copyright (C) 2021 Azael Reyes <azael.devel@gmail.com>
@@ -17,11 +17,38 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 
-int main()
+
+#include "core.hh"
+
+
+int main( void )
 {
-	std::cout << "Hello world!" << std::endl;
+	octetos::cobgl::Window wnd;
+
+	// Ensure we can capture the escape key being pressed below
+	glfwSetInputMode(wnd, GLFW_STICKY_KEYS, GL_TRUE);
+
+	// Dark blue background
+	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+
+	do
+	{
+		// Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
+		glClear( GL_COLOR_BUFFER_BIT );
+
+		// Draw nothing, see you in tutorial 2 !
+
+		
+		// Swap buffers
+		glfwSwapBuffers(wnd);
+		glfwPollEvents();
+
+	} // Check if the ESC key was pressed or the window was closed
+	while( glfwGetKey(wnd, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
+		   glfwWindowShouldClose(wnd) == 0 );
+	
+
 	return 0;
 }
 
