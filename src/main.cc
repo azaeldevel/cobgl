@@ -28,7 +28,7 @@
 
 int main( void )
 {
-	octetos::cobgl::Window wnd;
+	octetos::cobgl::Window wnd(640,480,"Coleccion de Obejtos GL - Octetos");
 
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(wnd, GLFW_STICKY_KEYS, GL_TRUE);

@@ -11,6 +11,8 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 #include <octetos/core/Exception.hh>
+#include <string>
+
 
 namespace octetos::cobgl
 {
@@ -110,7 +112,7 @@ private:
 class Window
 {
 public:
-	Window();
+	Window(int width, int height, const std::string& title);
 	~Window();
 	operator GLFWwindow*();
 
