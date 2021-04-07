@@ -36,9 +36,9 @@ int main( void )
 	// Dark blue background
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
-	GLuint VertexArrayID;
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
+	//GLuint VertexArrayID;
+	//glGenVertexArrays(1, &VertexArrayID);
+	//glBindVertexArray(VertexArrayID);
 
 	// Create and compile our GLSL program from the shaders
 	GLuint programID = LoadShaders( "src/SimpleTransform.vertexshader", "src/SingleColor.fragmentshader" );
@@ -119,7 +119,7 @@ int main( void )
 	// Cleanup VBO and shader
 	//glDeleteBuffers(1, &vertexbuffer);
 	glDeleteProgram(programID);
-	glDeleteVertexArrays(1, &VertexArrayID);
+	//glDeleteVertexArrays(1, &VertexArrayID);
 
 	return 0;
 }

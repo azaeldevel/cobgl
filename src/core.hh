@@ -100,6 +100,7 @@ public:
 	{
 		return vBuff;
 	};
+
 private:
 	unsigned short dimension;
 	unsigned short size;
@@ -112,8 +113,11 @@ public:
 	Window();
 	~Window();
 	operator GLFWwindow*();
+
+	void MakeContextCurrent();
 private:
 	GLFWwindow* window;
+	GLuint VertexArrayID;
 };
 
 

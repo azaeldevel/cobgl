@@ -29,7 +29,7 @@ Window::Window()
 		glfwTerminate();
 		return;
 	}
-	glfwMakeContextCurrent(window);
+	MakeContextCurrent();
 
 	// Initialize GLEW
 	if (glewInit() != GLEW_OK) {
@@ -38,10 +38,14 @@ Window::Window()
 		glfwTerminate();
 		return;
 	}
+
+	glGenVertexArrays(1, &VertexArrayID);
+	glBindVertexArray(VertexArrayID);
 }	
 
 Window::~Window()
 {
+	glDeleteVertexArrays(1, &VertexArrayID);
 	glfwTerminate();
 }
 
@@ -50,4 +54,9 @@ Window::operator GLFWwindow*()
 	return window;
 }
 
+
+void Window::MakeContextCurrent()
+{
+	glfwMakeContextCurrent(window);
+}
 }
