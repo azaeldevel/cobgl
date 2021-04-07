@@ -22,7 +22,7 @@
 #include <vector>
 #include <iostream>
 
-
+#include "Vertex.hh"
 #include "core.hh"
 #include "shader.hpp"
 
