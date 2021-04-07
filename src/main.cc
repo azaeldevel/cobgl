@@ -81,15 +81,15 @@ int main( void )
 	std::cout << "Size of v3 " << vData[2].size() << "\n";
 	std::cout << "Size of vData " << vData.size() << "\n";*/
 	octetos::cobgl::VertexList<float> vecL(3,3);
-	octetos::cobgl::Vertex3D<float>& v1 = (octetos::cobgl::Vertex3D<float>&)vecL[0];
+	octetos::cobgl::Vertex3D<float>& v1 = vecL.get3D(0);
 	v1.x = -1.0;
 	v1.y = -1.0;
 	v1.z = 0.0;
-	octetos::cobgl::Vertex3D<float>& v2 = (octetos::cobgl::Vertex3D<float>&)vecL[1];
+	octetos::cobgl::Vertex3D<float>& v2 = vecL.get3D(1);
 	v2.x = 1.0;
 	v2.y = -1.0;
 	v2.z = 0.0;
-	octetos::cobgl::Vertex3D<float>& v3 = (octetos::cobgl::Vertex3D<float>&)vecL[2];
+	octetos::cobgl::Vertex3D<float>& v3 = vecL.get3D(2);
 	v3.x = 0.0;
 	v3.y = 1.0;
 	v3.z = 0.0;
@@ -112,11 +112,7 @@ int main( void )
 		 0.0f,  1.0f, 0.0f,
 	};
 
-	GLuint vertexbuffer;
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * 9, vecL.getHeader(), GL_STATIC_DRAW);
-
+	vecL.GenBuffers(1);
 	
 	do
 	{
@@ -133,7 +129,7 @@ int main( void )
 
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, vecL);
 		glVertexAttribPointer(
 			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
 			3,                  // size
@@ -157,7 +153,7 @@ int main( void )
 	while( glfwGetKey(wnd, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(wnd) == 0 );
 	
 	// Cleanup VBO and shader
-	glDeleteBuffers(1, &vertexbuffer);
+	//glDeleteBuffers(1, &vertexbuffer);
 	glDeleteProgram(programID);
 	glDeleteVertexArrays(1, &VertexArrayID);
 

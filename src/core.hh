@@ -43,22 +43,19 @@ public:
 		this->dimension = dimension;
 		this->size = size;
 	};
+	~VertexList()
+	{
+		glDeleteBuffers(1,&vBuff);
+	}
 	T* getHeader()
 	{
 		std::vector<T>& vl = *this;
 		return &vl[0];
 	}
-	Vertex<T>& operator[](unsigned short index)
+	Vertex3D<T>& get3D(unsigned short index)
 	{
 		std::vector<T>& vl = *this; 
-		if(dimension == 2) 
-		{
-			T* t = getHeader();
-			t = t + (sizeof(Vertex2D<T>) * index);
-			Vertex2D<T>* v = (Vertex2D<T>*) t ;
-			return *v;
-		}
-		else if(dimension == 3) 
+		if(dimension == 3) 
 		{
 			T* t = getHeader();
 			t = t + ((sizeof(Vertex3D<T>)/sizeof(T)) * index);
@@ -67,14 +64,42 @@ public:
 		}
 		else
 		{
-			std::string msg = "Solo se pueden crear objetos de 2 y 3 domensiones, usted especifico '";
-			msg += std::to_string(size) + "'";
+			std::string msg = "El vertice tiene dimension '";
+			msg += std::to_string(size) + "', pero usted especifico 3.";
 			throw core::Exception(msg,__FILE__,__LINE__);
 		}
 	}
+	Vertex2D<T>& get2D(unsigned short index)
+	{
+		std::vector<T>& vl = *this; 
+		if(dimension == 2) 
+		{
+			T* t = getHeader();
+			t = t + ((sizeof(Vertex2D<T>)/sizeof(T)) * index);
+			Vertex2D<T>* v = (Vertex2D<T>*) t ;
+			return *v;
+		}
+		else
+		{
+			std::string msg = "El vertice tiene dimension '";
+			msg += std::to_string(size) + "', pero usted especifico 2.";
+			throw core::Exception(msg,__FILE__,__LINE__);
+		}
+	}
+	void GenBuffers(GLsizei n)
+	{
+		glGenBuffers(n, &vBuff);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vBuff);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(T) * size * dimension, getHeader(), GL_STATIC_DRAW);
+	}
+	operator GLuint()
+	{
+		return vBuff;
+	};
 private:
 	unsigned short dimension;
 	unsigned short size;
+	GLuint vBuff;
 };
 
 class Window
