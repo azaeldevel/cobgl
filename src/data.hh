@@ -24,7 +24,7 @@ public:
 	{
 		if(head) 
 		{
-			delete [] head;
+			delete[] head;
 			head = NULL;
 		}
 	}

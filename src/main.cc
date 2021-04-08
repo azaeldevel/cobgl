@@ -64,6 +64,7 @@ int main( void )
 	v3.z = 0.0f;
 
 	vecL.GenBuffers(1);
+	std::cout << "Size of vecL " << sizeof(vecL) << "\n";
 	
 	do{
 

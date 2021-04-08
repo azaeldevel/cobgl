@@ -29,7 +29,7 @@ template<typename T> struct Vertex3D : public Vertex<T>
 	T y;
 	T z;
 };
-template<typename T, template <typename = T> class S> class VertexList : public octetos::core::Array<T>
+template<typename T, template <typename> class S> class VertexList : public octetos::core::Array<T>
 {
 public:
 	VertexList(unsigned short length) : octetos::core::Array<T>(3 * length)
