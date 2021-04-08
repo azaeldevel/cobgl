@@ -35,7 +35,7 @@ public:
 		if(strcmp(typeid(S<T>).name(),typeid(Vertex2D<T>).name()) == 0)
 		{
 			this->dimension = 2;
-			std::vector<T>::resize(2 * length);//TODO: Se asumio en el contructor que la demiencionera 3, si no es asi se corrge
+			std::vector<T>::resize(2 * length);//TODO: Se asumio en el contructor que la demiencion era 3, si no es asi se corrge
 		}
 		else if(strcmp(typeid(S<T>).name(),typeid(Vertex3D<T>).name()) == 0)
 		{
@@ -55,7 +55,7 @@ public:
 	{
 		glDeleteBuffers(1,&vBuff);
 	}
-	T* getHeader()
+	inline T* getHeader()
 	{
 		std::vector<T>& vl = *this;
 		return &vl[0];
@@ -76,39 +76,7 @@ public:
 			throw core::Exception(msg,__FILE__,__LINE__);
 		}		
 	}
-	/*S<T>& get3D(unsigned short index)
-	{
-		std::vector<T>& vl = *this; 
-		if(dimension == 3) 
-		{
-			T* t = getHeader();
-			t = t + ((sizeof(Vertex3D<T>)/sizeof(T)) * index);
-			return (Vertex3D<T>&) *t ;
-		}
-		else
-		{
-			std::string msg = "El vertice tiene dimension '";
-			msg += std::to_string(length) + "', pero usted especifico 3.";
-			throw core::Exception(msg,__FILE__,__LINE__);
-		}
-	}
-	S<T>& get2D(unsigned short index)
-	{
-		std::vector<T>& vl = *this; 
-		if(dimension == 2) 
-		{
-			T* t = getHeader();
-			t = t + ((sizeof(Vertex2D<T>)/sizeof(T)) * index);
-			Vertex2D<T>* v = (Vertex2D<T>*) t ;
-			return *v;
-		}
-		else
-		{
-			std::string msg = "El vertice tiene dimension '";
-			msg += std::to_string(length) + "', pero usted especifico 2.";
-			throw core::Exception(msg,__FILE__,__LINE__);
-		}
-	}*/
+	
 	void GenBuffers(GLsizei n)
 	{
 		glGenBuffers(n, &vBuff);

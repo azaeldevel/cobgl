@@ -27,8 +27,6 @@ Window::Window(int w, int h, const std::string& t)
 	// Initialize GLEW
 	initGLEW();
 
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
 }	
 void Window::initGLFW()
 {

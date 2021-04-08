@@ -26,43 +26,29 @@
 #include "core.hh"
 #include "shader.hpp"
 
+#include "core.hh"
+using namespace octetos;
+
+
 int main( void )
 {
-	octetos::cobgl::Window wnd(640,480,"Coleccion de Obejtos GL - Octetos");
+	// Initialise GLFW
+	cobgl::Window window(640, 480, "Tutorial 02 - Red triangle");
+	
 
 	// Ensure we can capture the escape key being pressed below
-	glfwSetInputMode(wnd, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	// Dark blue background
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
-	//GLuint VertexArrayID;
-	//glGenVertexArrays(1, &VertexArrayID);
-	//glBindVertexArray(VertexArrayID);
+	GLuint VertexArrayID;
+	glGenVertexArrays(1, &VertexArrayID);
+	glBindVertexArray(VertexArrayID);
 
 	// Create and compile our GLSL program from the shaders
-	GLuint programID = LoadShaders( "src/SimpleTransform.vertexshader", "src/SingleColor.fragmentshader" );
+	GLuint programID = LoadShaders( "src/SimpleVertexShader.vertexshader", "src/SimpleFragmentShader.fragmentshader" );
 
-	// Get a handle for our "MVP" uniform
-	GLuint MatrixID = glGetUniformLocation(programID, "MVP");
-
-	// Projection matrix : Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
-	// Or, for an ortho camera :
-	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
-	
-	// Camera matrix
-	glm::mat4 View       = glm::lookAt(
-								glm::vec3(4,3,3), // Camera is at (4,3,3), in World Space
-								glm::vec3(0,0,0), // and looks at the origin
-								glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
-						   );
-	// Model matrix : an identity matrix (model will be at the origin)
-	glm::mat4 Model      = glm::mat4(1.0f);
-	// Our ModelViewProjection : multiplication of our 3 matrices
-	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix mul
-
-	
 	octetos::cobgl::VertexList<float,octetos::cobgl::Vertex3D> vecL(3);
 	octetos::cobgl::Vertex3D<float>& v1 = vecL[0];
 	v1.x = -1.0f;
@@ -77,34 +63,15 @@ int main( void )
 	v3.y = 1.0f;
 	v3.z = 0.0f;
 
-	static const GLfloat g_vertex_buffer_data[] = { 
-		-1.0f, -1.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,
-	};
-	std::cout << "Size of g_vertex_buffer_data = " << sizeof(g_vertex_buffer_data) << "\n";
-	std::cout << "Size  = " << sizeof(float) * 9 << "\n";
-	std::cout << "Size of vecL = " << sizeof(vecL) << "\n";
-	std::cout << "Size of unsigned short = " << sizeof(unsigned short) << "\n";
-	std::cout << "Size of GLuint = " << sizeof(GLuint) << "\n";
-	for(float f : vecL)
-	{
-		std::cout << "f = " << f << "\n";
-	}
 	vecL.GenBuffers(1);
 	
-	do
-	{
+	do{
 
 		// Clear the screen
 		glClear( GL_COLOR_BUFFER_BIT );
 
 		// Use our shader
 		glUseProgram(programID);
-
-		// Send our transformation to the currently bound shader, 
-		// in the "MVP" uniform
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
 
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
@@ -122,20 +89,22 @@ int main( void )
 		glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
 
 		glDisableVertexAttribArray(0);
-		
+
 		// Swap buffers
-		glfwSwapBuffers(wnd);
+		glfwSwapBuffers(window);
 		glfwPollEvents();
 
 	} // Check if the ESC key was pressed or the window was closed
-	while( glfwGetKey(wnd, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(wnd) == 0 );
+	while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
+		   glfwWindowShouldClose(window) == 0 );
 
-	float buff[9];
-	
-	// Cleanup VBO and shader
+	// Cleanup VBO
 	//glDeleteBuffers(1, &vertexbuffer);
+	glDeleteVertexArrays(1, &VertexArrayID);
 	glDeleteProgram(programID);
-	//glDeleteVertexArrays(1, &VertexArrayID);
+
+	// Close OpenGL window and terminate GLFW
+	glfwTerminate();
 
 	return 0;
 }
