@@ -26,7 +26,6 @@ Window::Window(int w, int h, const std::string& t)
 
 	// Initialize GLEW
 	initGLEW();
-
 }	
 void Window::initGLFW()
 {

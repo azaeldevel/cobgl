@@ -8,6 +8,8 @@
 #include <vector>
 #include <string.h>
 
+#include "data.hh"
+
 
 namespace octetos::cobgl
 {
@@ -27,15 +29,15 @@ template<typename T> struct Vertex3D : public Vertex<T>
 	T y;
 	T z;
 };
-template<typename T, template <typename = T> class S> class VertexList : public std::vector<T>
+template<typename T, template <typename = T> class S> class VertexList : public octetos::core::Array<T>
 {
 public:
-	VertexList(unsigned short length) : std::vector<T>(3 * length)
+	VertexList(unsigned short length) : octetos::core::Array<T>(3 * length)
 	{
 		if(strcmp(typeid(S<T>).name(),typeid(Vertex2D<T>).name()) == 0)
 		{
 			this->dimension = 2;
-			std::vector<T>::resize(2 * length);//TODO: Se asumio en el contructor que la demiencion era 3, si no es asi se corrge
+			octetos::core::Array<T>::resize(2 * length);//TODO: Se asumio en el contructor que la demiencion era 3, si no es asi se corrge
 		}
 		else if(strcmp(typeid(S<T>).name(),typeid(Vertex3D<T>).name()) == 0)
 		{
@@ -47,7 +49,7 @@ public:
 			msg = msg + typeid(S<T>).name() + "', no es una clase valida.";
 			throw core::Exception(msg,__FILE__,__LINE__);
 		}
-		std::cout << "Size of sz = " << dimension * length << ", size = " << std::vector<T>::size() << "\n";
+		//std::cout << "Size of sz = " << dimension * length << ", size = " << std::vector<T>::size() << "\n";
 		this->dimension = dimension;
 		this->length = length;
 	};
@@ -55,17 +57,11 @@ public:
 	{
 		glDeleteBuffers(1,&vBuff);
 	}
-	inline T* getHeader()
-	{
-		std::vector<T>& vl = *this;
-		return &vl[0];
-	}
 	S<T>& operator[] (unsigned short index)
 	{
-		std::vector<T>& vl = *this; 
 		if(dimension == 3) 
 		{
-			T* t = getHeader();
+			T* t = (T*)*this;
 			t = t + ((sizeof(S<T>)/sizeof(T)) * index);
 			return (S<T>&) *t ;
 		}
@@ -81,7 +77,7 @@ public:
 	{
 		glGenBuffers(n, &vBuff);
 		glBindBuffer(GL_ARRAY_BUFFER, vBuff);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(T) * length * dimension, getHeader(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(T) * length * dimension, (T*)*this, GL_STATIC_DRAW);
 	}
 	void BindBuffer()
 	{
