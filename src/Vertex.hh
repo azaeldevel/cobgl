@@ -32,6 +32,10 @@ template<typename T> struct Vertex3D : public Vertex<T>
 template<typename T, template <typename> class S, unsigned short D> class VertexList : public octetos::core::Array<T>
 {
 public:
+	VertexList(T* head, unsigned short length) : octetos::core::Array<T>(head,length)
+	{
+		
+	};
 	VertexList(unsigned short length) : octetos::core::Array<T>(D * length)
 	{
 		if(strcmp(typeid(S<T>).name(),typeid(Vertex2D<T>).name()) == 0)
@@ -70,18 +74,9 @@ public:
 	};
 	S<T>& operator[] (unsigned short index)
 	{
-		if(getDimension() == 3) 
-		{
-			T* t = (T*)*this;
-			t = t + ((sizeof(S<T>)/sizeof(T)) * index);
-			return (S<T>&) *t ;
-		}
-		else
-		{
-			std::string msg = "El vertice tiene dimension '";
-			msg += std::to_string(octetos::core::Array<T>::getSize()) + "', pero usted especifico 3.";
-			throw core::Exception(msg,__FILE__,__LINE__);
-		}		
+		T* t = (T*)*this;
+		t = t + ((sizeof(S<T>)/sizeof(T)) * index);
+		return (S<T>&) *t ;		
 	}
 	
 	void GenBuffers(GLsizei n)

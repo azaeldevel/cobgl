@@ -25,7 +25,7 @@
 #include <vector>
 #include <iostream>
 
-#include "Vertex.hh"
+#include "Shapes.hh"
 #include "core.hh"
 #include "shader.hpp"
 
@@ -72,22 +72,152 @@ int main( void )
 	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
 
 	
-	octetos::cobgl::VertexList<float,octetos::cobgl::Vertex3D,3> vecL(3);
-	octetos::cobgl::Vertex3D<float>& v1 = vecL[0];
+	octetos::cobgl::Triangle<float> triangle;
+	octetos::cobgl::Vertex3D<float>& v1 = triangle.getVertex()[0];
 	v1.x = -1.0f;
 	v1.y = -1.0f;
 	v1.z = 0.0f;
-	octetos::cobgl::Vertex3D<float>& v2 = vecL[1];
+	octetos::cobgl::Vertex3D<float>& v2 = triangle.getVertex()[1];
 	v2.x = 1.0f;
 	v2.y = -1.0f;
 	v2.z = 0.0f;
-	octetos::cobgl::Vertex3D<float>& v3 = vecL[2];
+	octetos::cobgl::Vertex3D<float>& v3 = triangle.getVertex()[2];
 	v3.x = 0.0f;
 	v3.y = 1.0f;
 	v3.z = 0.0f;
+	triangle.getVertex().GenBuffers(1);
 
-	vecL.GenBuffers(1);
-	std::cout << "Size of vecL " << sizeof(vecL) << "\n";
+	octetos::cobgl::Cube<float> cube;
+	//t1
+	cube.getVertex()[0].x = -1.0;
+	cube.getVertex()[0].y = -1.0;
+	cube.getVertex()[0].z = -1.0;
+	cube.getVertex()[1].x = -1.0;
+	cube.getVertex()[1].y = -1.0;
+	cube.getVertex()[1].z = 1.0;
+	cube.getVertex()[2].x = -1.0;
+	cube.getVertex()[2].y = 1.0;
+	cube.getVertex()[2].z = 1.0;
+	//t2
+	cube.getVertex()[3].x = 1.0;
+	cube.getVertex()[3].y = 1.0;
+	cube.getVertex()[3].z = -1.0;
+	cube.getVertex()[4].x = -1.0;
+	cube.getVertex()[4].y = -1.0;
+	cube.getVertex()[4].z = 1.0;
+	cube.getVertex()[5].x = -1.0;
+	cube.getVertex()[5].y = 1.0;
+	cube.getVertex()[5].z = -1.0;
+	//t3
+	cube.getVertex()[6].x = 1.0;
+	cube.getVertex()[6].y = -1.0;
+	cube.getVertex()[6].z = 1.0;
+	cube.getVertex()[7].x = -1.0;
+	cube.getVertex()[7].y = -1.0;
+	cube.getVertex()[7].z = -1.0;
+	cube.getVertex()[8].x = 1.0;
+	cube.getVertex()[8].y = -1.0;
+	cube.getVertex()[8].z = -1.0;
+	//t4
+	cube.getVertex()[9].x = 1.0;
+	cube.getVertex()[9].y = 1.0;
+	cube.getVertex()[9].z = -1.0;
+	cube.getVertex()[10].x = 1.0;
+	cube.getVertex()[10].y = -1.0;
+	cube.getVertex()[10].z = -1.0;
+	cube.getVertex()[11].x = -1.0;
+	cube.getVertex()[11].y = -1.0;
+	cube.getVertex()[11].z = -1.0;
+	//t5
+	cube.getVertex()[12].x = -1.0;
+	cube.getVertex()[12].y = -1.0;
+	cube.getVertex()[12].z = -1.0;
+	cube.getVertex()[13].x = -1.0;
+	cube.getVertex()[13].y = 1.0;
+	cube.getVertex()[13].z = 1.0;
+	cube.getVertex()[14].x = -1.0;
+	cube.getVertex()[14].y = 1.0;
+	cube.getVertex()[14].z = -1.0;
+	//t6
+	cube.getVertex()[15].x = 1.0;
+	cube.getVertex()[15].y = -1.0;
+	cube.getVertex()[15].z = 1.0;
+	cube.getVertex()[16].x = -1.0;
+	cube.getVertex()[16].y = -1.0;
+	cube.getVertex()[16].z = 1.0;
+	cube.getVertex()[17].x = -1.0;
+	cube.getVertex()[17].y = -1.0;
+	cube.getVertex()[17].z = -1.0;
+	//t7
+	cube.getVertex()[18].x = -1.0;
+	cube.getVertex()[18].y = 1.0;
+	cube.getVertex()[18].z = 1.0;
+	cube.getVertex()[19].x = -1.0;
+	cube.getVertex()[19].y = -1.0;
+	cube.getVertex()[19].z = 1.0;
+	cube.getVertex()[20].x = 1.0;
+	cube.getVertex()[20].y = -1.0;
+	cube.getVertex()[20].z = 1.0;
+	//t8
+	cube.getVertex()[21].x = 1.0;
+	cube.getVertex()[21].y = 1.0;
+	cube.getVertex()[21].z = 1.0;
+	cube.getVertex()[22].x = 1.0;
+	cube.getVertex()[22].y = -1.0;
+	cube.getVertex()[22].z = -1.0;
+	cube.getVertex()[23].x = 1.0;
+	cube.getVertex()[23].y = 1.0;
+	cube.getVertex()[23].z = -1.0;
+	//t8
+	cube.getVertex()[24].x = 1.0;
+	cube.getVertex()[24].y = 1.0;
+	cube.getVertex()[24].z = 1.0;
+	cube.getVertex()[25].x = 1.0;
+	cube.getVertex()[25].y = -1.0;
+	cube.getVertex()[25].z = -1.0;
+	cube.getVertex()[26].x = 1.0;
+	cube.getVertex()[26].y = -1.0;
+	cube.getVertex()[26].z = 1.0;
+	//t9
+	cube.getVertex()[27].x = 1.0;
+	cube.getVertex()[27].y = -1.0;
+	cube.getVertex()[27].z = -1.0;
+	cube.getVertex()[28].x = 1.0;
+	cube.getVertex()[28].y = 1.0;
+	cube.getVertex()[28].z = 1.0;
+	cube.getVertex()[29].x = 1.0;
+	cube.getVertex()[29].y = -1.0;
+	cube.getVertex()[29].z = 1.0;
+	//t10
+	cube.getVertex()[30].x = 1.0;
+	cube.getVertex()[30].y = 1.0;
+	cube.getVertex()[30].z = 1.0;
+	cube.getVertex()[31].x = 1.0;
+	cube.getVertex()[31].y = 1.0;
+	cube.getVertex()[31].z = -1.0;
+	cube.getVertex()[32].x = -1.0;
+	cube.getVertex()[32].y = 1.0;
+	cube.getVertex()[32].z = -1.0;
+	//t11
+	cube.getVertex()[33].x = 1.0;
+	cube.getVertex()[33].y = 1.0;
+	cube.getVertex()[33].z = 1.0;
+	cube.getVertex()[34].x = -1.0;
+	cube.getVertex()[34].y = 1.0;
+	cube.getVertex()[34].z = -1.0;
+	cube.getVertex()[35].x = -1.0;
+	cube.getVertex()[35].y = 1.0;
+	cube.getVertex()[35].z = -1.0;
+	//t12
+	cube.getVertex()[36].x = 1.0;
+	cube.getVertex()[36].y = 1.0;
+	cube.getVertex()[36].z = 1.0;
+	cube.getVertex()[37].x = -1.0;
+	cube.getVertex()[37].y = 1.0;
+	cube.getVertex()[37].z = 1.0;
+	cube.getVertex()[38].x = 1.0;
+	cube.getVertex()[38].y = -1.0;
+	cube.getVertex()[38].z = 1.0;
 	
 	glm::mat4 tranM = glm::translate(glm::mat4(1), glm::vec3(1.0f, 0.0f, 0.0f));
 	glm::vec4 transformedVector(4.0f,3.0f,3.0f,0.0f);
@@ -102,10 +232,10 @@ int main( void )
 		glUseProgram(programID);
 				
 		
-		ttemp = tranM * transformedVector;
+		/*ttemp = tranM * transformedVector;
 		std::cout<<glm::to_string(transformedVector)<<std::endl;
 		transformedVector = ttemp;
-		std::cout<<glm::to_string(transformedVector)<<std::endl;
+		std::cout<<glm::to_string(transformedVector)<<std::endl;*/
 		
 		// Send our transformation to the currently bound shader, 
 		// in the "MVP" uniform
@@ -113,7 +243,7 @@ int main( void )
 		
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
-		vecL.BindBuffer();
+		triangle.getVertex().BindBuffer();
 		glVertexAttribPointer(
 			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
 			3,                  // size
