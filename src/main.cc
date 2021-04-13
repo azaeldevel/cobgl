@@ -19,6 +19,9 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
+
 #include <vector>
 #include <iostream>
 
@@ -56,7 +59,7 @@ int main( void )
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
 	// Or, for an ortho camera :
 	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
-	
+
 	// Camera matrix
 	glm::mat4 View       = glm::lookAt(
 								glm::vec3(4,3,3), // Camera is at (4,3,3), in World Space
@@ -67,8 +70,9 @@ int main( void )
 	glm::mat4 Model      = glm::mat4(1.0f);
 	// Our ModelViewProjection : multiplication of our 3 matrices
 	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
+
 	
-	octetos::cobgl::VertexList<float,octetos::cobgl::Vertex3D> vecL(3);
+	octetos::cobgl::VertexList<float,octetos::cobgl::Vertex3D,3> vecL(3);
 	octetos::cobgl::Vertex3D<float>& v1 = vecL[0];
 	v1.x = -1.0f;
 	v1.y = -1.0f;
@@ -85,6 +89,10 @@ int main( void )
 	vecL.GenBuffers(1);
 	std::cout << "Size of vecL " << sizeof(vecL) << "\n";
 	
+	glm::mat4 tranM = glm::translate(glm::mat4(1), glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::vec4 transformedVector(4.0f,3.0f,3.0f,0.0f);
+	glm::vec4 ttemp;
+	
 	do{
 
 		// Clear the screen
@@ -92,7 +100,13 @@ int main( void )
 
 		// Use our shader
 		glUseProgram(programID);
-
+				
+		
+		ttemp = tranM * transformedVector;
+		std::cout<<glm::to_string(transformedVector)<<std::endl;
+		transformedVector = ttemp;
+		std::cout<<glm::to_string(transformedVector)<<std::endl;
+		
 		// Send our transformation to the currently bound shader, 
 		// in the "MVP" uniform
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
